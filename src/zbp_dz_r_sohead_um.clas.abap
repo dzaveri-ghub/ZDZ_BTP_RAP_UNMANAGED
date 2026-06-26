@@ -1,0 +1,5 @@
+CLASS zbp_dz_r_sohead_um DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zdz_r_sohead_um.
+ENDCLASS.
+
+CLASS zbp_dz_r_sohead_um IMPLEMENTATION.
+ENDCLASS.

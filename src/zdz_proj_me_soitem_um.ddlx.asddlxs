@@ -1,0 +1,111 @@
+@Metadata.layer: #CUSTOMER
+
+@UI.headerInfo: {                     //Limited to Header Titles
+    typeName: 'SalesItem',
+    typeNamePlural: 'Sales Items',
+    title: {
+        type: #STANDARD,
+        label: 'Sales Item Details',
+        value: 'Soid'
+    },
+    description: {
+        type: #STANDARD,
+        label: 'ItemDetails',
+        value: 'soid'
+    }
+}
+
+annotate entity ZDZ_I_SOIT_UM
+    with 
+{
+
+    @UI.facet: [   // SO Item Details Facet
+                { 
+                
+                    id: 'ItemDetails',
+                    purpose: #STANDARD,
+                    position: 10,
+                    label: 'Sales Item Details',
+                    type: #IDENTIFICATION_REFERENCE
+                }]
+    
+
+//  1) SOID
+
+    @UI.lineItem: [{position: 10, label: 'SalesOrder No.'}]
+    
+    @UI.identification: [{ position: 10, label: 'Sales Order' }]  // single SO item display in 3rd layer
+
+    Soid;
+    
+//  2) ItemId    
+    
+    @UI.lineItem: [{position: 20, label: 'Sales Item ID'}]
+    
+    @UI.identification: [{ position: 20, label: 'Sales Item' }]
+    
+    ItemId;
+    
+//  3) Product    
+    
+    @UI.lineItem: [{position: 30, label: 'Product'}]
+    
+    @UI.identification: [{ position: 40, label: 'Amount' }]
+    
+    Product;
+    
+//  4) Amount    
+    
+    @UI.lineItem: [{position: 40, label: 'Amount'}]
+    
+    @UI.identification: [{ position: 40, label: 'Amount' }]
+    Amount;
+
+//  5) Currency    
+    
+    @UI.lineItem: [{position: 50, label: 'Currency'}]
+
+    @UI.identification: [{ position: 50, label: 'Currency' }]
+    Currency;
+    
+//  6) SalesPerson    
+    
+    @UI.lineItem: [{position: 60, label: 'Sales Person'}]
+    
+    SalesPerson;
+    
+//  7) SalesTimestamp    
+    
+    @UI.lineItem: [{position: 70, label: 'Sales Timestamp'}]
+    
+    SalesTimestamp;
+    
+//  8) Sales Manager    
+    
+    @UI.lineItem: [{position: 80, label: 'Sales Manager'}]
+    
+    SalesManager;
+    
+//  9) Approval Timestamp    
+    
+    @UI.lineItem: [{position: 90, label: 'Approval Timestamp'}]
+    
+    ApprovalTimestamp;
+    
+//  10) Changed By    
+    
+    @UI.lineItem: [{position: 100, label: 'Changed By'}]    
+    
+    ChangedBy;
+    
+//  11) Changed On    
+    
+    @UI.lineItem: [{position: 110, label: 'Changed On'}]    
+    
+    ChangedOn;
+//    ImageItem;
+    /* Associations */
+  //  SOHeader;
+   // _prod;
+    
+}

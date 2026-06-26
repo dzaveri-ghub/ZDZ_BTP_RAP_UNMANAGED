@@ -1,0 +1,7 @@
+@EndUserText.label: 'Service Definition: Sales UM'
+define service ZDZ_SD_SALES_UM {
+  expose ZDZ_CR_SOHEAD_UM;
+  expose ZDZ_CI_SOITEM_UM;
+  expose ZDZ_I_PRODUCT;
+  expose ZDZ_I_CUSTOMER;
+}

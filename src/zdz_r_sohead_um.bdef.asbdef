@@ -1,0 +1,27 @@
+unmanaged implementation in class zbp_dz_r_sohead_um unique;
+strict ( 2 );
+
+define behavior for ZDZ_R_SOHEAD_UM //alias <alias_name>
+//late numbering
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field ( readonly ) Soid;
+  association _soitem { create; }
+}
+
+define behavior for ZDZ_I_SOIT_UM //alias <alias_name>
+//late numbering
+lock dependent by SOHeader
+authorization dependent by SOHeader
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) Soid, ItemId;
+  association SOHeader;
+}

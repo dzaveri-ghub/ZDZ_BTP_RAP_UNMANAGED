@@ -1,0 +1,124 @@
+@Metadata.layer: #CUSTOMER
+
+@UI.headerInfo: {                     //Limited to Header Titles
+    typeName: 'SalesOrder',
+    typeNamePlural: 'Sales Orders',
+    title: {
+        type: #STANDARD,
+        label: 'Order Details',
+        value: 'Soid'
+    },
+    description: {
+        type: #STANDARD,
+        label: 'OrderDetails',
+        value: 'soid'
+    }
+}
+
+annotate entity ZDZ_CR_SOHEAD_UM
+    with 
+{
+
+    //Facet for Sales Order Id
+    
+    @UI.facet: [
+                { 
+                  id: 'OrderDetails',
+                  purpose: #STANDARD,
+                  position: 10,
+                  label: 'Order Details',
+                  type: #IDENTIFICATION_REFERENCE
+                },
+                
+                { 
+                  id: 'SOItem',
+                  purpose: #STANDARD,
+                  position: 20,
+                  label: 'SO Item Details',
+                  type: #LINEITEM_REFERENCE,
+                  targetElement: '_soitem'
+                }
+               ]
+
+//  1) SOID
+
+    @UI.lineItem: [{position: 10, label: 'SalesOrder No.'}]
+    
+    @UI.identification: [{position: 10, label: 'SalesOrder No.'}]
+    Soid;
+    
+//  2) Buyer    
+    
+    @UI.lineItem: [{position: 20, label: 'Customer'}]
+    
+    @UI.identification: [{position: 20, label: 'Customer'}]
+    Buyer;
+   
+//  3) SalesPerson    
+    
+    @UI.lineItem: [{position: 30, label: 'Sales Person'}]
+    
+    @UI.identification: [{position: 30, label: 'Sales Person'}]    
+    SalesPerson;
+    
+//  4) SalesTimestamp    
+    
+    @UI.lineItem: [{position: 40, label: 'Sales Timestamp'}]
+    
+    @UI.identification: [{position: 40, label: 'Sales Timestamp'}]    
+    SalesTimestamp;
+    
+//  5) Sales Manager    
+    
+    @UI.lineItem: [{position: 50, label: 'Sales Manager'}]
+    
+    @UI.identification: [{position: 50, label: 'Sales Manager'}]
+    
+    SalesManager;
+    
+//  6) Approval Timestamp    
+    
+    @UI.lineItem: [{position: 60, label: 'Approval Timestamp'}]
+    
+    @UI.identification: [{position: 60, label: 'Approval Timestamp'}]    
+    ApprovalTimestamp;
+    
+//  7) Created By    
+    
+    @UI.lineItem: [{position: 70, label: 'Created By'}]
+    
+    @UI.identification: [{position: 70, label: 'Created By'}]    
+    CreatedBy;
+    
+//  8) Created On    
+    
+    @UI.lineItem: [{position: 80, label: 'Created On'}]
+    
+    @UI.identification: [{position: 80, label: 'Created On'}]    
+    CreatedOn;
+    
+//  9) Changed By    
+    
+    @UI.lineItem: [{position: 90, label: 'Changed By'}]    
+    
+    @UI.identification: [{position: 90, label: 'Changed By'}]
+    ChangedBy;
+    
+//  10) Changed On    
+    
+    @UI.lineItem: [{position: 80, label: 'Changed On'}]    
+    
+    @UI.identification: [{position: 80, label: 'Changed On'}]
+    ChangedOn;
+    
+// 11) URL
+    
+    @UI.lineItem: [{position: 90, label: 'URL'}]
+    
+    @UI.identification: [{position: 90, label: 'URL'}]    
+    Url;
+    /* Associations */
+ //   _cust;
+   // _soitem;
+    
+}
