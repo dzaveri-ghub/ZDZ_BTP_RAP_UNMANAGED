@@ -18,8 +18,7 @@
 annotate entity ZDZ_CR_SOHEAD_UM
     with 
 {
-
-    //Facet for Sales Order Id
+     //Facet for Sales Order Id
     
     @UI.facet: [
                 { 
@@ -30,15 +29,17 @@ annotate entity ZDZ_CR_SOHEAD_UM
                   type: #IDENTIFICATION_REFERENCE
                 },
                 
-                { 
+                //Facet for Sales Order Item
+    
+                 { 
                   id: 'SOItem',
                   purpose: #STANDARD,
                   position: 20,
-                  label: 'SO Item Details',
+                  label: 'Sales Order Item',
                   type: #LINEITEM_REFERENCE,
                   targetElement: '_soitem'
-                }
-               ]
+                  }
+                ]
 
 //  1) SOID
 
@@ -120,5 +121,6 @@ annotate entity ZDZ_CR_SOHEAD_UM
     /* Associations */
  //   _cust;
    // _soitem;
+ 
     
 }

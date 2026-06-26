@@ -1,0 +1,24 @@
+@Metadata.layer: #CUSTOMER
+annotate entity ZDZ_I_CUSTOMER
+    with 
+{
+    @UI.identification: [{ position: 10, label: 'Customer Id' }]
+    CustId;
+    
+    @UI.identification: [{ position: 10, label: 'Customer Name' }]
+    Name;
+    
+    @UI.identification: [{ position: 30, label: 'Company Name' }]
+    CompanyName;
+    
+    @UI.identification: [{ position: 40, label: 'Country' }]
+    Country;
+    
+    @UI.identification: [{ position: 50, label: 'City' }]
+    City;
+    
+    @UI.identification: [{ position: 60, label: 'Customer Mobile' }]
+    Mobile;
+    
+    
+}

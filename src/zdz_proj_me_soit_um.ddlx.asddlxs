@@ -10,24 +10,22 @@
     },
     description: {
         type: #STANDARD,
-        label: 'ItemDetails',
+        label: 'SalesItemDetails',
         value: 'soid'
     }
 }
-
-annotate entity ZDZ_I_SOIT_UM
+annotate entity ZDZ_CI_SOITEM_UM
     with 
 {
-
+    
+    
     @UI.facet: [   // SO Item Details Facet
-                { 
-                
-                    id: 'ItemDetails',
-                    purpose: #STANDARD,
-                    position: 10,
-                    label: 'Sales Item Details',
-                    type: #IDENTIFICATION_REFERENCE
-                }]
+                { id: 'ItemDetails',
+                  purpose: #STANDARD,
+                   position: 10,
+                   label: 'Sales Item Details',
+                   type: #IDENTIFICATION_REFERENCE
+                }]                                  
     
 
 //  1) SOID
@@ -39,7 +37,7 @@ annotate entity ZDZ_I_SOIT_UM
     Soid;
     
 //  2) ItemId    
-    
+   
     @UI.lineItem: [{position: 20, label: 'Sales Item ID'}]
     
     @UI.identification: [{ position: 20, label: 'Sales Item' }]
@@ -103,9 +101,17 @@ annotate entity ZDZ_I_SOIT_UM
     @UI.lineItem: [{position: 110, label: 'Changed On'}]    
     
     ChangedOn;
-//    ImageItem;
+    
+// 12) ImageItem
+
+    @UI.lineItem: [{ position: 120, label: 'Image Item' }]
+        
+    ImageItem;
+    
+    
     /* Associations */
   //  SOHeader;
    // _prod;
+ 
     
 }
