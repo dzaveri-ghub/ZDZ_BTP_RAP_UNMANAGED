@@ -10,8 +10,24 @@ authorization master ( instance )
   create ( authorization : global );
   update;
   delete;
-  field ( readonly ) Soid;
+  field ( readonly: update ) Soid;
   association _soitem { create; }
+
+  // mapping entity field names (alias) = database field names for delete operation
+  mapping for zdz_dt_so
+  {
+    Soid    =   soid;
+    Buyer   =   buyer;
+    SalesPerson =   sales_person;
+    SalesTimestamp  =   sales_timestamp;
+    SalesManager    =   sales_manager;
+    ApprovalTimestamp   =   approval_timestamp;
+    CreatedBy   =   created_by;
+    CreatedOn   = created_on;
+    ChangedBy   =   changed_by;
+    ChangedOn   =   changed_on;
+    Url =   url;
+  }
 }
 
 define behavior for ZDZ_I_SOIT_UM //alias <alias_name>
@@ -22,6 +38,11 @@ authorization dependent by SOHeader
 {
   update;
   delete;
-  field ( readonly ) Soid, ItemId;
+  field ( readonly ) Soid;
+
+  field ( readonly: update ) ItemId;
+
+  field( mandatory : create ) ItemId;
+
   association SOHeader;
 }

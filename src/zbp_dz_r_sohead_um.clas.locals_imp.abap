@@ -39,9 +39,38 @@ CLASS lhc_ZDZ_R_SOHEAD_UM IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD create.
+
+
+    zcl_dz_static_api=>create(
+      EXPORTING
+        entities = entities
+      CHANGING
+        mapped   = mapped
+        failed   = failed
+        reported = reported
+    ).
+
+
+
+*    importing   entities    type table for create zdz_r_sohead_um   [ derived type... ]
+*changing    mapped  type response for mapped early zdz_r_sohead_um  [ derived type... ]
+*failed  type response for failed early zdz_r_sohead_um  [ derived type... ]
+*reported    type response for reported early zdz_r_sohead_um
+
+
   ENDMETHOD.
 
   METHOD update.
+
+    zcl_dz_static_api=>update(
+      EXPORTING
+        entities = entities
+      CHANGING
+        mapped   = mapped
+        failed   = failed
+        reported = reported
+    ).
+
   ENDMETHOD.
 
   METHOD delete.
@@ -118,6 +147,91 @@ CLASS lsc_ZDZ_R_SOHEAD_UM IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD save.
+
+
+    zcl_dz_static_api=>save(
+      CHANGING
+        reported = reported
+    ).
+
+*    if zcl_dz_static_api=>gt_reported_upd is NOT initial.
+*
+*        LOOP AT zcl_dz_static_api=>gt_reported_upd into data(gs_report_upd).
+**
+**
+**            READ entities OF zdz_r_sohead_um  "root entity
+**             entity zdz_r_sohead_um
+**             ALL FIELDS    "require all fields
+**             with value #( (  %key-Soid    =   gs_report_upd-soid ) )
+**
+**             result data(lt_result) "storing in internal table
+**             failed data(lt_failed).
+***
+**             loop AT lt_result into data(ls_result).
+*
+*                    APPEND VALUE #(
+*                                  %key = VALUE #( Soid = gs_report_upd-soid )"gs_report_upd-soid "ls_result-%key
+*                                  %msg = new_message_with_text(
+*                                             severity = if_abap_behv_message=>severity-information
+*                                             text     = gs_report_upd-message " 'Sales order successfully updated.'
+*                                         )
+*                              ) TO reported-zdz_r_sohead_um.
+*
+*
+**            endloop.
+*        endloop.
+*
+*    elseif zcl_dz_static_api=>gt_reported_create is not initial.
+*
+*            LOOP AT zcl_dz_static_api=>gt_reported_create into data(gs_report_create).
+*
+*
+*                 APPEND VALUE #(
+*                              %key = VALUE #( Soid = gs_report_create-soid )"gs_report_upd-soid "ls_result-%key
+*                              %msg = new_message_with_text(
+*                                         severity = if_abap_behv_message=>severity-information
+*                                         text     = gs_report_create-message
+*                                     )
+*                          ) TO reported-zdz_r_sohead_um.
+*            ENDLOOP.
+*
+*
+*    endif.
+
+*
+*
+*    LOOP AT zcl_dz_static_api=>gt_sohead into data(gs_sohead).
+*
+*
+*        READ entities OF zdz_r_sohead_um  "root entity
+*         entity zdz_r_sohead_um
+*         ALL FIELDS    "require all fields
+*         with value #( (  %key-Soid    =   gs_sohead-soid ) )
+*
+*         result data(lt_result) "storing in internal table
+*         failed data(lt_failed).
+**
+*         loop AT lt_result into data(ls_result).
+*
+*
+*
+*
+*                APPEND VALUE #(
+*                              %key = ls_result-%key
+*                              %msg = new_message_with_text(
+*                                         severity = if_abap_behv_message=>severity-error
+*                                         text     = 'Not Allowed: Sales Id already exists.'
+*                                     )
+*                          ) TO reported-zdz_r_sohead_um.
+*
+*
+*
+*
+*        endloop.
+*        endloop.
+*
+*  endif.
+
   ENDMETHOD.
 
   METHOD cleanup.
