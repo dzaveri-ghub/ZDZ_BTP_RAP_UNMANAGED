@@ -20,14 +20,18 @@ define root view entity ZDZ_R_SOHEAD_UM
     zdz_dt_so.sales_manager as SalesManager,
     zdz_dt_so.approval_timestamp as ApprovalTimestamp,
     zdz_dt_so.created_by as CreatedBy,
+    
+    
     zdz_dt_so.created_on as CreatedOn,
+    
+    
     zdz_dt_so.changed_by as ChangedBy,
     
     
-    //START : ETAG on field 'changedon' of type long timestamp
-    @Semantics.systemDateTime.lastChangedAt: true
-    @Semantics.systemDateTime.localInstanceLastChangedAt: true
-    
+//    //START : ETAG on field 'changedon' of type long timestamp
+//    @Semantics.systemDateTime.lastChangedAt: true
+//    @Semantics.systemDateTime.localInstanceLastChangedAt: true
+//    
     zdz_dt_so.changed_on as ChangedOn,
     
     // END

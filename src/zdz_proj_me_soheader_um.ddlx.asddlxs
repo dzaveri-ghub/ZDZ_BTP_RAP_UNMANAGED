@@ -53,6 +53,18 @@ annotate entity ZDZ_CR_SOHEAD_UM
     @UI.lineItem: [{position: 20, label: 'Customer'}]
     
     @UI.identification: [{position: 20, label: 'Customer'}]
+    
+     //to display F4 help 
+       
+       @Consumption.valueHelpDefinition: 
+       [{  
+       
+        entity: { 
+        
+                    name: 'ZDZ_I_CUSTOMER',
+                    element: 'CustId'
+                }
+       }]
     Buyer;
    
 //  3) SalesPerson    

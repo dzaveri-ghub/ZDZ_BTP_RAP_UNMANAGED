@@ -1,17 +1,33 @@
 unmanaged implementation in class zbp_dz_r_sohead_um unique;
 strict ( 2 );
 
-define behavior for ZDZ_R_SOHEAD_UM //alias <alias_name>
-//late numbering
-lock master
+//with draft;
+
+define behavior for ZDZ_R_SOHEAD_UM //alias <alias_nam
+late numbering
+
+
+//draft table zdz_df_so
+
+//early numbering
+
+lock master //total etag CreatedOn
+
 authorization master ( instance )
-//etag master <field_name>
+//etag master ChangedOn
 {
   create ( authorization : global );
   update;
   delete;
   field ( readonly: update ) Soid;
   association _soitem { create; }
+
+//  draft action Resume;
+//  draft action Edit;
+//  draft action Activate;
+//  draft action Discard;
+//
+//  draft determine action Prepare;
 
   // mapping entity field names (alias) = database field names for delete operation
   mapping for zdz_dt_so
@@ -28,13 +44,17 @@ authorization master ( instance )
     ChangedOn   =   changed_on;
     Url =   url;
   }
+
 }
 
 define behavior for ZDZ_I_SOIT_UM //alias <alias_name>
-//late numbering
+
+late numbering
+
+//draft table zdz_df_soitem
 lock dependent by SOHeader
 authorization dependent by SOHeader
-//etag master <field_name>
+//etag master ChangedOn
 {
   update;
   delete;
@@ -45,4 +65,5 @@ authorization dependent by SOHeader
   field( mandatory : create ) ItemId;
 
   association SOHeader;
+
 }

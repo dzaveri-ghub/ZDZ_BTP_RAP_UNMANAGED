@@ -27,6 +27,7 @@ CLASS zcl_dz_static_api DEFINITION
     TYPES:
         tt_update_so type table for update zdz_r_sohead_um,
         tt_mapped type response for mapped early zdz_r_sohead_um,
+        tt_mapped_late type response for mapped late zdz_r_sohead_um,
         tt_failed  type response for failed early zdz_r_sohead_um,
         tt_reported type response for reported early zdz_r_sohead_um,
 
@@ -75,7 +76,14 @@ CLASS zcl_dz_static_api DEFINITION
 
           save
              changing
-                reported    type tt_reported_late.
+                reported    type tt_reported_late,
+
+
+          adjust_numbers
+
+             changing
+                mapped   TYPE     tt_mapped_late
+                reported TYPE     tt_reported_late.
 
 
 
@@ -89,7 +97,7 @@ CLASS zcl_dz_static_api IMPLEMENTATION.
 
   METHOD update.
 
-    clear: gt_sohead.
+    "clear: gt_sohead.
 
     "gt_sohead = CORRESPONDING #( entities MAPPING FROM ENTITY ).
 
@@ -129,23 +137,23 @@ CLASS zcl_dz_static_api IMPLEMENTATION.
 
     gt_sohead = CORRESPONDING #( entities MAPPING FROM ENTITY ).
 
-    LOOP at entities ASSIGNING FIELD-SYMBOL(<gfs_entities_upd>).
-
-
-         ASSIGN gt_sohead[ soid =   <gfs_entities_upd>-Soid ] to FIELD-SYMBOL(<gfs_sohead_upd>).
-
-            if <gfs_entities_upd>-%control-SalesPerson  =   if_abap_behv=>mk-on.
-
-
-                 select single * from zdz_dt_so
-                        where soid  =   @<gfs_sohead_upd>-soid
-                        INTO @data(ls_dt_so).
-
-                 ls_dt_so-sales_person =   <gfs_sohead_upd>-sales_person.
-
-                 <gfs_sohead_upd> =   ls_dt_so.
-
-            endif.
+*    LOOP at entities ASSIGNING FIELD-SYMBOL(<gfs_entities_upd>).
+*
+*
+*         ASSIGN gt_sohead[ soid =   <gfs_entities_upd>-Soid ] to FIELD-SYMBOL(<gfs_sohead_upd>).
+*
+*            if <gfs_entities_upd>-%control-SalesPerson  =   if_abap_behv=>mk-on.
+*
+*
+*                 select single * from zdz_dt_so
+*                        where soid  =   @<gfs_sohead_upd>-soid
+*                        INTO @data(ls_dt_so).
+*
+*                 ls_dt_so-sales_person =   <gfs_sohead_upd>-sales_person.
+*
+*                 <gfs_sohead_upd> =   ls_dt_so.
+*
+*            endif.
 
 *            APPEND VALUE #(
 *                            soid = <gfs_entities_upd>-Soid
@@ -153,23 +161,27 @@ CLASS zcl_dz_static_api IMPLEMENTATION.
 *                            message   = |Sales Order successfully updated|
 *                          ) TO gt_reported_upd.
 
-        clear ls_dt_so.
-
-
-    endloop.
+*        clear ls_dt_so.
+*
+*
+*    endloop.
 
   ENDMETHOD.
 
   METHOD save.
+
+    if gt_sohead is not initial.
+        modify zdz_dt_so from table @gt_sohead.
+    endif.
 
 
     "if gt_sohead is not initial.
 *
 *       gv_update    =   abap_true.
 *
-       if gt_reported_upd is not initial.
+       "if gt_reported_upd is not initial.
 
-        update zdz_dt_so from table @gt_sohead.
+        "update zdz_dt_so from table @gt_sohead.
 
 
 *            LOOP AT gt_reported_upd ASSIGNING FIELD-SYMBOL(<gs_reported_upd>).
@@ -187,12 +199,13 @@ CLASS zcl_dz_static_api IMPLEMENTATION.
 *
 *                              ) TO reported-zdz_r_sohead_um.
 *            endloop.
-        elseif  gt_reported_create is not initial.
-
-            insert zdz_dt_so from table @gt_sohead.
-
-
-       endif.
+        "else
+*            if  gt_reported_create is not initial.
+*
+*                insert zdz_dt_so from table @gt_sohead.
+*
+*
+*           endif.
     "endif.
 
 *
@@ -239,15 +252,17 @@ CLASS zcl_dz_static_api IMPLEMENTATION.
 
   METHOD create.
 
-    clear: gt_sohead.
+    "clear: gt_sohead.
 
     gt_sohead = CORRESPONDING #( entities MAPPING FROM ENTITY ).
+
+
 
 
    "  insert zdz_dt_so from table @gt_sohead.
 
 
-    gv_create =   abap_true.
+    "gv_create =   abap_true.
 *    loop at gt_sohead into data(gs_sohead_create).
 *
 *        select single * from zdz_dt_so
@@ -277,5 +292,22 @@ CLASS zcl_dz_static_api IMPLEMENTATION.
 
 
   ENDMETHOD.
+
+  method adjust_numbers.
+
+    cl_uuid_factory=>create_system_uuid( )->create_uuid_x16(
+    RECEIVING
+      uuid = data(lv_soid)
+  ).
+
+    loop AT gt_sohead reference into data(lr_so).
+
+        lr_so->soid =   lv_soid.
+
+    endloop.
+
+    mapped-zdz_r_sohead_um  =   CORRESPONDING #( gt_sohead MAPPING TO ENTITY ).
+
+  endmethod.
 
 ENDCLASS.

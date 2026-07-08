@@ -28,6 +28,9 @@ CLASS lhc_ZDZ_R_SOHEAD_UM DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS cba_Soitem FOR MODIFY
       IMPORTING entities_cba FOR CREATE zdz_r_sohead_um\_Soitem.
 
+*    METHODS earlynumbering_create FOR NUMBERING
+*      IMPORTING entities FOR CREATE ZDZ_R_SOHEAD_UM.
+
 ENDCLASS.
 
 CLASS lhc_ZDZ_R_SOHEAD_UM IMPLEMENTATION.
@@ -88,6 +91,40 @@ CLASS lhc_ZDZ_R_SOHEAD_UM IMPLEMENTATION.
   METHOD cba_Soitem.
   ENDMETHOD.
 
+*  METHOD earlynumbering_create.
+*
+*  cl_uuid_factory=>create_system_uuid( )->create_uuid_x16(
+*    RECEIVING
+*      uuid = data(lv_soid)
+*  ).
+*  CATCH cx_uuid_error.
+
+
+
+"mapped parameter will pass value to the screen
+"early numbering (triggered before save method)->
+"%cid will act as a primary key when primary key value is blank
+
+*    mapped-zdz_r_sohead_um  =   value #( For ls_entities in entities
+*
+*                                            (
+*
+*                                            "unique id - temporary primary key
+*                                            %cid    =   ls_entities-%cid
+*
+*                                            "enabling draft functionality
+*                                            %is_draft    =   ls_entities-%is_draft
+*
+*                                            "generated soid (lv_soid)
+*                                            "Generated soid will takeover
+*                                            soid    =   lv_soid
+*
+*                                            )
+*                                       ).
+*   " clear lv_soid.
+*
+*  ENDMETHOD.
+
 ENDCLASS.
 
 CLASS lhc_ZDZ_I_SOIT_UM DEFINITION INHERITING FROM cl_abap_behavior_handler.
@@ -130,6 +167,8 @@ CLASS lsc_ZDZ_R_SOHEAD_UM DEFINITION INHERITING FROM cl_abap_behavior_saver.
 
     METHODS check_before_save REDEFINITION.
 
+    METHODS adjust_numbers REDEFINITION.
+
     METHODS save REDEFINITION.
 
     METHODS cleanup REDEFINITION.
@@ -145,6 +184,8 @@ CLASS lsc_ZDZ_R_SOHEAD_UM IMPLEMENTATION.
 
   METHOD check_before_save.
   ENDMETHOD.
+
+
 
   METHOD save.
 
@@ -231,6 +272,20 @@ CLASS lsc_ZDZ_R_SOHEAD_UM IMPLEMENTATION.
 *        endloop.
 *
 *  endif.
+
+  ENDMETHOD.
+
+
+   Method adjust_numbers.
+
+        zcl_dz_static_api=>adjust_numbers(
+          CHANGING
+            mapped   = mapped
+            reported = reported
+        ).
+
+
+
 
   ENDMETHOD.
 

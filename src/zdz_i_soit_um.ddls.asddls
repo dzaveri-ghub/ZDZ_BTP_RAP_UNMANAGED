@@ -24,7 +24,13 @@ define view entity ZDZ_I_SOIT_UM
     sales_manager as SalesManager,
     approval_timestamp as ApprovalTimestamp,
     changed_by as ChangedBy,
+    
+    //START : ETAG on field 'changedon' of type long timestamp
+    @Semantics.systemDateTime.lastChangedAt: true
+    @Semantics.systemDateTime.localInstanceLastChangedAt: true
+    
     changed_on as ChangedOn,
+    
     image_item as ImageItem,
     SOHeader,
     _prod
