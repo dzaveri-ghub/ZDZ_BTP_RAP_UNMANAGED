@@ -77,6 +77,16 @@ CLASS lhc_ZDZ_R_SOHEAD_UM IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD delete.
+
+    zcl_dz_static_api=>delete(
+      EXPORTING
+        keys     =  keys
+      CHANGING
+        mapped   =  mapped
+        failed   =  failed
+        reported =  reported
+    ).
+
   ENDMETHOD.
 
   METHOD read.
